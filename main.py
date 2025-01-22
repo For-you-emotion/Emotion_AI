@@ -1,4 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+
+from dto import Request 
+from feedback import feedback
 
 app = FastAPI()
 
@@ -6,9 +9,12 @@ app = FastAPI()
 def read_root() :
     return {'Hello Emotion!'}
 
-
-'''
-How To Run Server : > uvicorn main:app --reload
-
-http://127.0.0.1:8000/
-http://127.0.0.1:8000/docs
+@app.post("/feedback")
+def callFeedbackAI(request : Request) :
+    try :
+        result = feedback(request.memory, request.feelings)
+        return {
+            "result" : result 
+        }
+    except Exception as e :
+        raise HTTPException(status_code = 500, detail = str(e))
