@@ -2,7 +2,14 @@
 
 <br>
 
-## 실행 방법
+## Tech Stack
+```Python``` <br>
+```FastAPI``` <br>
+```OpenAI```
+
+<br>
+
+## How to Run
 OS : ```Window``` <br>
 Tech : ```Python (version : 3.13.0)```
 ```shell
