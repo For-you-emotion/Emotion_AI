@@ -3,15 +3,15 @@
 <br>
 
 ## Tech Stack
-```Python``` <br>
-```FastAPI``` <br>
-```OpenAI```
+**Dev** : ```Python(version : 3.13.0)``` & ```FastAPI``` <br>
+
+**OS** : ```Window``` <br>
+
+**build** : ```uvicorn```
 
 <br>
 
 ## How to Run
-OS : ```Window``` <br>
-Tech : ```Python (version : 3.13.0)```
 ```shell
 > git clone https://github.com/wwwxsv19/Emotion_AI.git 
 ```
