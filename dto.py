@@ -1,4 +1,4 @@
-import pydantic import BaseModel
+from pydantic import BaseModel
 
 class Request(BaseModel) :
     memory : str
