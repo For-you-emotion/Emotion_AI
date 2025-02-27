@@ -10,9 +10,9 @@ def read_root() :
     return {'Hello Emotion!'}
 
 @app.post("/feedback")
-def callFeedbackAI(request : Request) :
+def callFeedbackAI(request: Request) :
     try :
-        result = feedback(request.memory, request.feelings)
+        result = feedback(request)
         return {
             "result" : result 
         }
