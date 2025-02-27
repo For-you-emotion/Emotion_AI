@@ -1,4 +1,4 @@
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 from openai import OpenAI
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
@@ -13,7 +13,7 @@ logging.basicConfig(level = logging.DEBUG)
 async def saveData(hwId, beadNum, memory, feelings, db: AsyncSession = Depends(get_db)) :
     query = text(
         "INSERT INTO emotion_data_tbl (hw_id, bead_num, user_memory, user_feelings) "
-        "VALUSE (:hw_id, :bead_num, :user_memory, :user_feelings)"
+        "VALUES (:hw_id, :bead_num, :user_memory, :user_feelings)"
     )
 
     try :
@@ -28,11 +28,11 @@ async def saveData(hwId, beadNum, memory, feelings, db: AsyncSession = Depends(g
         await db.rollback()
         raise HTTPException(status_code = 400, detail = "SAVE DATA ERROR")
 
-def feedback(request: Request) :
+async def feedback(request: Request) :
     memory = request.memory
     feelings = request.feelings
 
-    saveData(request.hwId, request.beadNum, memory, feelings)
+    await saveData(request.hwId, request.beadNum, memory, feelings)
 
     response = []
 
