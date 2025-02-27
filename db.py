@@ -9,9 +9,9 @@ logging.basicConfig(level = logging.DEBUG)
 logging.info("데이터베이스 : ", DATABASE_URL)
 
 # 대충 비동기로 만들 거라는 뜻
-angine = create_async_engine(DATABASE_URL, echo=True)
+engine = create_async_engine(DATABASE_URL, echo=True)
 
-SessionLocal = sessionMaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
+SessionLocal = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
 
 database = Database(DATABASE_URL)
 
