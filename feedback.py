@@ -17,6 +17,7 @@ async def saveData(hwId, beadNum, memory, feelings, db: AsyncSession = Depends(g
     )
 
     try :
+        logging.info("쿼리문에 데이터 삽입 후 실행!")
         await db.execute(query, { 
             "hw_id" : hwId,
             "bead_num" : beadNum,
@@ -24,6 +25,7 @@ async def saveData(hwId, beadNum, memory, feelings, db: AsyncSession = Depends(g
             "user_feelings" : json.dumps(feelings)
         })
         await db.commit()
+        logging.info("커밋 완료!")
     except Exception as e :
         await db.rollback()
         raise HTTPException(status_code = 400, detail = "SAVE DATA ERROR")
@@ -32,6 +34,7 @@ async def feedback(request: Request) :
     memory = request.memory
     feelings = request.feelings
 
+    logging.info("피드백 요청 전, 데이터를 DB 에 저장합니다...")
     await saveData(request.hwId, request.beadNum, memory, feelings)
 
     response = []
