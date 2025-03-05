@@ -18,18 +18,21 @@ async def saveData(request: Request, db: AsyncSession) :
     try :
         logging.info("쿼리문에 데이터 삽입 후 실행!")
         await db.execute(query, { 
-            "hw_id" : hwId,
-            "bead_num" : beadNum,
-            "user_memory" : memory,
-            "user_feelings" : json.dumps(feelings)
+            "hw_id" : request.hwId,
+            "bead_num" : request.beadNum,
+            "user_memory" : request.memory,
+            "user_feelings" : json.dumps(request.feelings)
         })
         await db.commit()
         logging.info("커밋 완료!")
     except Exception as e :
         await db.rollback()
-        raise HTTPException(status_code = 400, detail = "SAVE DATA ERROR")
+        raise HTTPException(status_code = 400, detail = f"SAVE DATA ERROR : {str(e)}")
 
 def feedback(request: Request) :
+    memory = request.memory
+    feelings = request.feelings
+
     response = []
 
     prompt = (
