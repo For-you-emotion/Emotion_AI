@@ -3,6 +3,7 @@ from openai import OpenAI
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from dto import Request
+
 import json
 import logging
 
