@@ -15,19 +15,21 @@ app = FastAPI()
 def read_root() :
     return {"Hello Emotion!"}
 
+# wav 저장 후 그대로 반환
 @app.post("/wavTest")
 async def saveWav(file: UploadFile = File(...)) :
     try :
-        return save(file)
+        return await save(file)
     except HTTPException as httpEx :
         raise httpEx
     except Exception as e :
         raise HTTPException(status_code = 500, detail = str(e))
 
+# 파일 이름으로 wav 반환
 @app.get("/{text}")
-def getWav(text: str): 
+async def getWav(text: str): 
     try :
-        return find(text)
+        return await find(text)
     except HTTPException as httpEx :
         raise httpEx
     except Exception as e :
