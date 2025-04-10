@@ -1,4 +1,4 @@
-from fastapi import UploadFile, File
+from fastapi import HTTPException, UploadFile, File
 from fastapi.responses import FileResponse
 
 import logging, os
