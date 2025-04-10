@@ -13,7 +13,7 @@ app = FastAPI()
 
 @app.get("/")
 def read_root() :
-    return {'Hello Emotion!'}
+    return {"Hello Emotion!"}
 
 @app.post("/wavTest")
 async def saveWav(file: UploadFile = File(...)) :

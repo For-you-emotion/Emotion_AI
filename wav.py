@@ -19,7 +19,7 @@ async def save(file: UploadFile) :
 
     logging.info(f"정상적으로 파일을 받아 저장하였습니다! : {file.filename}") 
 
-    return FileResponse(filePath, media_type = 'audio/wav', filename = file.filename)
+    return FileResponse(filePath, media_type = "audio/wav", filename = file.filename)
 
 async def find(text: str) :
     logging.info(".wav 파일 이름으로 가져 오기")
@@ -29,4 +29,4 @@ async def find(text: str) :
     if not os.path.exists(filePath) :
         raise HTTPException(status_code = 404, detail = "존재하지 않는 .wav 파일입니다!")
     
-    return FileResponse(filePath, media_type = 'audio/wav', filename = text)
+    return FileResponse(filePath, media_type = "audio/wav", filename = text)
