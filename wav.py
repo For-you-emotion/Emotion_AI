@@ -38,3 +38,7 @@ async def delete(text: str) :
 
     if not os.path.exists(filePath) :
         logging.info("이미 존재하지 않는 .wav 파일입니다")
+        return True
+    
+    os.remove(filePath)
+    return True
