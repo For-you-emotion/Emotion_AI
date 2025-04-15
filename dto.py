@@ -5,3 +5,6 @@ class Request(BaseModel) :
     beadNum : int
     memory : str
     feelings : list[str]
+
+class Message(BaseModel) :
+    message : str

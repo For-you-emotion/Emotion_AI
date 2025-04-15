@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends, UploadFile, File
 from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from dto import Request 
+from dto import Request, Message
 from db import get_db
 from feedback import saveData, feedback
 from wav import save, find, delete
@@ -38,7 +38,10 @@ async def getWav(text: str) :
 # 파일 이름으로 wav 삭제
 @app.delete("/{text}")
 async def deleteWav(text: str) :
-    await delete(text)
+    if await delete(text) is True :
+        return Message(message = "삭제 성공!")
+    else :
+        return Message(message = "삭제 실패...")
 
 @app.post("/feedback")
 async def callFeedbackAI(request: Request, db: AsyncSession = Depends(get_db)) :
