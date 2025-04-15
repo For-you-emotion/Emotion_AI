@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from dto import Request 
 from db import get_db
 from feedback import saveData, feedback
-from wav import save, find
+from wav import save, find, delete
 
 import logging, os, sys
 
@@ -34,6 +34,10 @@ async def getWav(text: str):
         raise httpEx
     except Exception as e :
         raise HTTPException(status_code = 500, detail = str(e))
+
+@app.delete("/{text}")
+async def deleteWav(text: str) :
+    await delete(text)
 
 @app.post("/feedback")
 async def callFeedbackAI(request: Request, db: AsyncSession = Depends(get_db)) :

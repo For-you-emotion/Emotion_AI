@@ -30,3 +30,11 @@ async def find(text: str) :
         raise HTTPException(status_code = 404, detail = "존재하지 않는 .wav 파일입니다!")
     
     return FileResponse(filePath, media_type = "audio/wav", filename = text)
+
+async def delete(text: str) :
+    logging.info(".wav 파일 이름으로 삭제하기")
+
+    filePath = os.path.join("wavFiles", str(text) + ".wav")
+
+    if not os.path.exists(filePath) :
+        logging.info("이미 존재하지 않는 .wav 파일입니다")
