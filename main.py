@@ -27,7 +27,7 @@ async def saveWav(file: UploadFile = File(...)) :
 
 # 파일 이름으로 wav 반환
 @app.get("/{text}")
-async def getWav(text: str): 
+async def getWav(text: str) :
     try :
         return await find(text)
     except HTTPException as httpEx :
@@ -35,6 +35,7 @@ async def getWav(text: str):
     except Exception as e :
         raise HTTPException(status_code = 500, detail = str(e))
 
+# 파일 이름으로 wav 삭제
 @app.delete("/{text}")
 async def deleteWav(text: str) :
     await delete(text)
