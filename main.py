@@ -25,10 +25,10 @@ async def saveWav(file: UploadFile = File(...)) :
         raise HTTPException(status_code = 500, detail = str(e))
 
 # 파일 이름으로 wav 반환
-@app.get("/{text}")
-async def getWav(text: str) :
+@app.get("/wav/{num}")
+async def getWav(num: str) :
     try :
-        return await find(text)
+        return await find(num)
     except HTTPException as httpEx :
         raise httpEx
     except Exception as e :
