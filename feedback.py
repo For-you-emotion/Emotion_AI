@@ -2,7 +2,6 @@ from fastapi import HTTPException
 from openai import OpenAI
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
-from dto import Request
 
 import json
 import logging
@@ -55,6 +54,7 @@ async def findData(fileName: str, db: AsyncSession) :
         await db.rollback()
         raise HTTPException(status_code = 404, detail = f"데이터 조회 중 오류 발생 : {str(e)}")
 
+'''
 def feedback(request: Request) :
     memory = request.memory
     feelings = request.feelings
@@ -93,3 +93,4 @@ def feedback(request: Request) :
 
     logging.info("OPENAI API의 응답 수신에 성공하였습니다!")
     return response.choices[0].message.content.strip()
+'''

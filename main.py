@@ -2,9 +2,8 @@ from fastapi import FastAPI, HTTPException, Depends, UploadFile, File
 from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from dto import Request, Message
 from db import get_db
-from feedback import saveData, findData, feedback
+from feedback import saveData, findData #, feedback
 from wav import save, find, delete
 
 import logging, os, sys
@@ -44,14 +43,6 @@ async def getFeelings(num: str, db: AsyncSession = Depends(get_db)) :
         raise httpEx
     except Exception as e :
         raise HTTPException(status_code = 500, detail = str(e))
-
-# 파일 이름으로 wav 삭제
-@app.delete("/{text}")
-async def deleteWav(text: str) :
-    if await delete(text) is True :
-        return Message(message = "삭제 성공!")
-    else :
-        return Message(message = "삭제 실패...")
 
 @app.post("/feedback/{hwId}/{beadNum}")
 async def callFeedbackAI(
