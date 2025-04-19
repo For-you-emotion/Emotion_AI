@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from dto import Request, Message
 from db import get_db
-from feedback import saveData, feedback
+from feedback import saveData, findData, feedback
 from wav import save, find, delete
 
 import logging, os, sys
@@ -30,6 +30,16 @@ async def saveWav(file: UploadFile = File(...)) :
 async def getWav(text: str) :
     try :
         return await find(text)
+    except HTTPException as httpEx :
+        raise httpEx
+    except Exception as e :
+        raise HTTPException(status_code = 500, detail = str(e))
+
+# wav 파일 이름으로 감정 반환
+@app.get("/feelings/{num}")
+async def getFeelings(num: str, db: AsyncSession = Depends(get_db)) :
+    try :
+        return await findDate(num, db)
     except HTTPException as httpEx :
         raise httpEx
     except Exception as e :

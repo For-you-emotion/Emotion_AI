@@ -34,6 +34,24 @@ async def saveData(hwId: str, beadNum: int, fileName: str, db: AsyncSession) :
         await db.rollback()
         raise HTTPException(status_code = 400, detail = f"SAVE DATA ERROR : {str(e)}")
 
+async def findData(fileName: str, db: AsyncSession) :
+    query = text(
+        "SELECT e.user_feelings "
+        "FROM emotion_data_tbl as e "
+        "WHERE e.num = (:num)"
+    )
+    
+    try :
+        logging.info("쿼리문에 데이터 삽입 후 실행!")
+        result = await db.execute(query, { 
+            "num" : fileName
+        })
+        
+        return result.scalar_one_or_none()
+    except Exception as e :
+        await db.rollback()
+        raise HTTPException(status_code = 404, detail = f"SAVE DATA ERROR : {str(e)}")
+
 def feedback(request: Request) :
     memory = request.memory
     feelings = request.feelings
