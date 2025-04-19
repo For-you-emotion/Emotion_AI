@@ -10,19 +10,23 @@ import logging
 client = OpenAI()
 logging.basicConfig(level = logging.DEBUG)
 
-async def saveData(request: Request, db: AsyncSession) :
+async def saveData(hwId: str, beadNum: int, fileName: str, db: AsyncSession) :
     query = text(
-        "INSERT INTO emotion_data_tbl (hw_id, bead_num, user_memory, user_feelings) "
-        "VALUES (:hw_id, :bead_num, :user_memory, :user_feelings)"
+        "INSERT INTO emotion_data_tbl "
+            "(num, hw_id, bead_num, user_memory, user_feelings, user_feedback) "
+        "VALUES "
+            "(:num, :hw_id, :bead_num, :user_memory, :user_feelings, :user_feedback)"
     )
 
     try :
         logging.info("쿼리문에 데이터 삽입 후 실행!")
         await db.execute(query, { 
-            "hw_id" : request.hwId,
-            "bead_num" : request.beadNum,
-            "user_memory" : request.memory,
-            "user_feelings" : json.dumps(request.feelings)
+            "num" : fileName,
+            "hw_id" : hwId,
+            "bead_num" : beadNum,
+            "user_memory" : "",
+            "user_feelings" : json.dumps([1, 2]),
+            "user_feedback" : ""
         })
         await db.commit()
         logging.info("커밋 완료!")

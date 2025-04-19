@@ -43,15 +43,20 @@ async def deleteWav(text: str) :
     else :
         return Message(message = "삭제 실패...")
 
-@app.post("/feedback")
-async def callFeedbackAI(request: Request, db: AsyncSession = Depends(get_db)) :
-    logging.info("피드백 요청 전, 데이터를 DB 에 저장합니다...")
-    await saveData(request, db)
-    
+@app.post("/feedback/{hwId}/{beadNum}")
+async def callFeedbackAI(
+        hwId: str, beadNum: int, file: UploadFile = File(...), 
+        db: AsyncSession = Depends(get_db)
+    ) :
     try :
-        result = feedback(request)
-        return {
-            "result" : result 
-        }
+        fileName = await save(file)
+
+        # result = feedback(request)
+        
+        await saveData(hwId, beadNum, fileName, db)
+
+        return fileName
+    except HTTPException as httpEx :
+        raise httpEx
     except Exception as e :
         raise HTTPException(status_code = 500, detail = str(e))
