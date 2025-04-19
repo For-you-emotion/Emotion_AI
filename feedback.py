@@ -20,6 +20,7 @@ async def saveData(hwId: str, beadNum: int, fileName: str, db: AsyncSession) :
 
     try :
         logging.info("쿼리문에 데이터 삽입 후 실행!")
+
         await db.execute(query, { 
             "num" : fileName,
             "hw_id" : hwId,
@@ -28,11 +29,13 @@ async def saveData(hwId: str, beadNum: int, fileName: str, db: AsyncSession) :
             "user_feelings" : json.dumps([1, 2]),
             "user_feedback" : ""
         })
+
         await db.commit()
+        
         logging.info("커밋 완료!")
     except Exception as e :
         await db.rollback()
-        raise HTTPException(status_code = 400, detail = f"SAVE DATA ERROR : {str(e)}")
+        raise HTTPException(status_code = 400, detail = f"데이터 저장 중 오류 발생 : {str(e)}")
 
 async def findData(fileName: str, db: AsyncSession) :
     query = text(
@@ -50,7 +53,7 @@ async def findData(fileName: str, db: AsyncSession) :
         return result.scalar_one_or_none()
     except Exception as e :
         await db.rollback()
-        raise HTTPException(status_code = 404, detail = f"SAVE DATA ERROR : {str(e)}")
+        raise HTTPException(status_code = 404, detail = f"데이터 조회 중 오류 발생 : {str(e)}")
 
 def feedback(request: Request) :
     memory = request.memory
