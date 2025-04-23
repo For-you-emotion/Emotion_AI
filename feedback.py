@@ -9,7 +9,7 @@ import logging
 client = OpenAI()
 logging.basicConfig(level = logging.DEBUG)
 
-async def saveData(hwId: str, beadNum: int, fileName: str, db: AsyncSession) :
+async def saveData(fileName: str, hwId: str, beadNum: int, memory: str, feelings: str, feedback: str, db: AsyncSession) :
     query = text(
         "INSERT INTO emotion_data_tbl "
             "(num, hw_id, bead_num, user_memory, user_feelings, user_feedback) "
@@ -24,9 +24,9 @@ async def saveData(hwId: str, beadNum: int, fileName: str, db: AsyncSession) :
             "num" : fileName,
             "hw_id" : hwId,
             "bead_num" : beadNum,
-            "user_memory" : "",
-            "user_feelings" : json.dumps([1, 2]),
-            "user_feedback" : ""
+            "user_memory" : memory,
+            "user_feelings" : feelings,
+            "user_feedback" : feedback
         })
 
         await db.commit()
@@ -54,11 +54,7 @@ async def findData(fileName: str, db: AsyncSession) :
         await db.rollback()
         raise HTTPException(status_code = 404, detail = f"데이터 조회 중 오류 발생 : {str(e)}")
 
-'''
-def feedback(request: Request) :
-    memory = request.memory
-    feelings = request.feelings
-
+def feedback(memory: str, feelings: str) :
     response = []
 
     prompt = (
@@ -86,11 +82,10 @@ def feedback(request: Request) :
             },
             {
                 "role" : "user",
-                "content" : memory + "\n이때 내가 느꼈던 감정은 " + " ".join(feelings) + "이야."
+                "content" : memory + "\n이때 내가 느꼈던 감정은 " + feelings + "이야."
             }
         ]
     )
 
     logging.info("OPENAI API의 응답 수신에 성공하였습니다!")
     return response.choices[0].message.content.strip()
-'''
