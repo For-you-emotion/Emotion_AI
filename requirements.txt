@@ -7,3 +7,12 @@ aiomysql
 databases
 cryptography
 python-multipart
+gTTS
+pydub
+numpy
+pandas
+librosa
+scikit-learn
+matplotlib
+seaborn
+speechrecognition
