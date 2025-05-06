@@ -7,12 +7,12 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-COPY dataset /app/dataset
-COPY Emotion_AI/requirements.txt /app/requirements.txt
+COPY emotion/dataset /app/dataset
+COPY emotion/Emotion_AI/requirements.txt /app/requirements.txt
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY Emotion_AI/. .
+COPY emotion/Emotion_AI/. .
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
